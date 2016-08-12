@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="ChristianMoser.WpfInspector.UserInterface.StyleExplorerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:l="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls" >
+    <Grid>
+        <l:UpdateTriggerControl UpdateTrigger="{Binding UpdateTrigger}"  />
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding StyleItems}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.IsSharedSizeScope="True"
+                 BorderThickness="0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ToolTip>
+                                <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="2" FontWeight="Bold" Text="File Location:" />
+                                    <TextBlock Grid.Row="1" FontWeight="Bold" Margin="2" Text="Scope:" />
+                                    <TextBlock Grid.Column="1" Margin="2" Text="{Binding FullLocation}" />
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Margin="2" Text="{Binding Scope}" />
+                                </Grid>
+                            </Grid.ToolTip>
+                            <Path x:Name="arrow" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-5,0,0" Data="F1 M 5.73383,0L 3.83475,4.96188L 7.63291,4.96188L 5.73383,0 Z M 5.73383,5.01377L 5.73383,12.8194" Stroke="{DynamicResource ButtonBorderBrush}" StrokeThickness="1.5" Fill="Black" />
+                            <l:ItemControl Margin="8">
+                                <l:ItemControl.Header>
+                                    <DockPanel LastChildFill="False">
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" FontWeight="Bold" />
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Location, StringFormat='{}({0})'}" Opacity="0.8" Margin="8,0" />
+                                    </DockPanel>
+                                </l:ItemControl.Header>
+                                <StackPanel Margin="4">
+                                    <Expander x:Name="setters" IsExpanded="True" >
+                                        <Expander.Header>
+                                            <TextBlock Text="Setters"  />
+                                        </Expander.Header>
+                                        <ItemsControl  Margin="8,4,0,0" ItemsSource="{Binding SetterItems}"  />
+                                    </Expander>
+                                    <Expander x:Name="triggers" IsExpanded="True" >
+                                        <Expander.Header>
+                                            <TextBlock Text="Triggers"  />
+                                        </Expander.Header>
+                                        <ItemsControl  Margin="8,4,0,0" ItemsSource="{Binding TriggerItems}" />
+                                    </Expander>
+                                    <Expander x:Name="resources" IsExpanded="True" >
+                                        <Expander.Header>
+                                            <TextBlock Text="Resources"  />
+                                        </Expander.Header>
+                                        <ItemsControl Margin="8,4,0,0" ItemsSource="{Binding ResourceItems}" />
+                                    </Expander>
+                                </StackPanel>
+                            </l:ItemControl>
+
+
+
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                <Setter Property="Visibility" TargetName="arrow" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SetterItems.Count}" Value="0">
+                                <Setter Property="Visibility" TargetName="setters" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TriggerItems.Count}" Value="0">
+                                <Setter Property="Visibility" TargetName="triggers" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ResourceItems.Count}" Value="0">
+                                <Setter Property="Visibility" TargetName="resources" Value="Collapsed" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Control>
+            <Control.Template>
+                <ControlTemplate>
+                    <TextBlock x:Name="noStyleInfoText" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5" Text="The element is not styled" Visibility="Collapsed" />
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding StyleItems.Count}" Value="0" >
+                            <Setter Property="Visibility" Value="Visible" TargetName="noStyleInfoText" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
+
+    </Grid>
+</UserControl>

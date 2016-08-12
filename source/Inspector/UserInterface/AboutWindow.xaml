@@ -1,0 +1,24 @@
+﻿<Window x:Class="ChristianMoser.WpfInspector.UserInterface.AboutWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    WindowStartupLocation="CenterOwner"
+    Title="About WPF Inspector" Height="300" Width="400">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Inspector;component/UserInterface/VisualResources/Inspector.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <Image IsHitTestVisible="False" Margin="6,6,6,6" Stretch="None" Source="/Inspector;component/Images/inspectorlogo.png" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+            <TextBlock Margin="16" TextWrapping="Wrap">
+           <Run FontWeight="Bold">WPF Inspector 1.0 </Run><LineBreak/>
+            © 2010, Christian Moser<LineBreak/>
+        All rights reserved.<LineBreak/><LineBreak/>
+            Feel free to contact me for questions, bugreports or feature requests on <Hyperlink>moc@zuehlke.com</Hyperlink> </TextBlock>
+        </StackPanel>
+        <Button x:Name="closeButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Close" Margin="8" IsDefault="True" />
+    </Grid>
+</Window>

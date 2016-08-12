@@ -1,0 +1,748 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{20C048F8-7CA0-4FFB-9431-AF55E9F4D6B6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChristianMoser.WpfInspector</RootNamespace>
+    <AssemblyName>Inspector</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <ApplicationIcon>Images\Inspector.ico</ApplicationIcon>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>false</GenerateManifests>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework.Aero">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationTypes">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="UserInterface\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Services\ApplicationSettings.cs" />
+    <Compile Include="Services\ApplicationSettingsService.cs" />
+    <Compile Include="Services\ElementTree\AutomationTreeService.cs" />
+    <Compile Include="Services\ElementTree\LogicalTreeService.cs" />
+    <Compile Include="Services\ElementTree\MouseElementServiceSettings.cs" />
+    <Compile Include="Services\ElementTree\VisualTreeService.cs" />
+    <Compile Include="Services\FocusedElementService.cs" />
+    <Compile Include="Services\FocusInfo.cs" />
+    <Compile Include="Services\StyleExplorer\StyleHelper.cs" />
+    <Compile Include="Services\StyleExplorer\StyleScope.cs" />
+    <Compile Include="Services\Triggers\TriggerItemFactory.cs" />
+    <Compile Include="UserInterface\Controls\ItemControl.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\FieldItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\ImagePropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\MethodItem.cs" />
+    <Compile Include="UserInterface\Controls\StyleVisualizer.cs" />
+    <Compile Include="UserInterface\Helpers\TextBoxHelper.cs" />
+    <Compile Include="UserInterface\TreeViewModelBase.cs" />
+    <Compile Include="Utilities\ResourceHelper.cs" />
+    <Compile Include="Services\StyleExplorer\StyleItem.cs" />
+    <Compile Include="UserInterface\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Services\Resizing\ApplicationResizeService.cs" />
+    <Compile Include="Services\Resizing\SizeItem.cs" />
+    <Compile Include="Services\StyleExplorer\StyleExplorerService.cs" />
+    <Compile Include="Services\Theming\ApplicationThemeItem.cs" />
+    <Compile Include="Services\Theming\ApplicationThemeService.cs" />
+    <Compile Include="Services\Xaml\BamlReader\BamlLoader.cs" />
+    <Compile Include="Services\Xaml\BamlReader\BamlTranslator.cs" />
+    <Compile Include="Services\Xaml\BamlReader\Resource.cs" />
+    <Compile Include="Services\Xaml\BamlReader\ResourceReader.cs" />
+    <Compile Include="Hook\Inspector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Services\Analyzers\Functionality\DataBindingErrorAnalyzer.cs" />
+    <Compile Include="Services\Analyzers\Maintainability\LocalBrushDefinitionsAnalyzer.cs" />
+    <Compile Include="Services\Analyzers\Functionality\UnresolvedDynamicResourceAnalyzer.cs" />
+    <Compile Include="Services\Analyzers\Performance\FreezeFreezablesAnalyzer.cs" />
+    <Compile Include="Services\Analyzers\Performance\NonVirtualizedListsAnalyzer.cs" />
+    <Compile Include="Services\Analyzers\AnalyzerBase.cs" />
+    <Compile Include="Services\Analyzers\Performance\UnnecessaryNestedPanelsAnalyzer.cs" />
+    <Compile Include="Services\Analyzers\AnalyzerContext.cs" />
+    <Compile Include="Services\ElementTree\AutomationItem.cs" />
+    <Compile Include="Services\ElementTree\PresentationSourceTreeItem.cs" />
+    <Compile Include="Services\ElementTree\TreeModel.cs" />
+    <Compile Include="Services\Events\RoutedEventItem.cs" />
+    <Compile Include="Services\Events\RoutedEventTrackingService.cs" />
+    <Compile Include="Services\Events\RoutedEventHandler.cs" />
+    <Compile Include="Services\InspectionService.cs" />
+    <Compile Include="Services\LoggerService.cs" />
+    <Compile Include="Services\MainWindowFinder.cs" />
+    <Compile Include="Services\ManagedApplicationsInfo.cs" />
+    <Compile Include="Services\Process32Service.cs" />
+    <Compile Include="Services\Resources\BrushResourceItem.cs" />
+    <Compile Include="Services\Resources\ColorResourceItem.cs" />
+    <Compile Include="Services\Resources\DrawingResourceItem.cs" />
+    <Compile Include="Services\Resources\GeometryResourceItem.cs" />
+    <Compile Include="Services\Resources\ResourceItemFactory.cs" />
+    <Compile Include="Services\Resources\StyleResourceItem.cs" />
+    <Compile Include="Services\Triggers\ConditionItem.cs" />
+    <Compile Include="Services\Triggers\DataTriggerItem.cs" />
+    <Compile Include="Services\Triggers\MultiDataTriggerItem.cs" />
+    <Compile Include="Services\Triggers\MultiTriggerItem.cs" />
+    <Compile Include="Services\Triggers\SetterItem.cs" />
+    <Compile Include="Services\Triggers\TriggerItem.cs" />
+    <Compile Include="Services\Triggers\TriggerItemBase.cs" />
+    <Compile Include="Services\Triggers\TriggerService.cs" />
+    <Compile Include="Services\ElementTree\LogicalTreeItem.cs" />
+    <Compile Include="Services\Analyzers\IssuesAnalyzerService.cs" />
+    <Compile Include="Services\DataContextService.cs" />
+    <Compile Include="Services\ElementTree\ApplicationTreeItem.cs" />
+    <Compile Include="Services\ElementTree\DataContextInfo.cs" />
+    <Compile Include="Services\Analyzers\Issue.cs" />
+    <Compile Include="Services\Resources\ResourceItem.cs" />
+    <Compile Include="Services\ElementTree\VisualTreeItem.cs" />
+    <Compile Include="Services\ManagedApplicationInfo.cs" />
+    <Compile Include="Services\ManagedApplicationsService.cs" />
+    <Compile Include="Services\MethodInjectorService.cs" />
+    <Compile Include="Services\ElementTree\MouseElementService.cs" />
+    <Compile Include="Services\Resources\ResourcesService.cs" />
+    <Compile Include="Services\ElementTree\TreeElementService.cs" />
+    <Compile Include="Services\ElementTree\SelectedTreeItemService.cs" />
+    <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Services\ElementTree\TreeItem.cs" />
+    <Compile Include="Services\UpdateCheckService.cs" />
+    <Compile Include="Services\Xaml\XamlSource.cs" />
+    <Compile Include="Services\Xaml\XamlSourceService.cs" />
+    <Compile Include="UserInterface\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\AnalyzerConfigurationViewModel.cs" />
+    <Compile Include="UserInterface\AnalyzerConfigurationWindow.xaml.cs">
+      <DependentUpon>AnalyzerConfigurationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\BindingEditorViewModel.cs" />
+    <Compile Include="UserInterface\BindingEditorWindow.xaml.cs">
+      <DependentUpon>BindingEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Controls\BrushEditor.cs" />
+    <Compile Include="UserInterface\Controls\ColorPicker.cs" />
+    <Compile Include="UserInterface\Controls\PopupContentControl.cs" />
+    <Compile Include="UserInterface\Controls\PropertyGrid.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\BooleanPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\BrushPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\CommandPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\CompositePropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\CornerRadiusPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\EnumPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\GridLengthPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\ListItemPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\ListPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\PropertyCategoryHelper.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\PropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\IPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\PropertyGridItemFactory.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\PropertyItemHelper.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\StylePropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\PropertyItems\ThicknessPropertyItem.cs" />
+    <Compile Include="UserInterface\Controls\SearchTextBox.cs" />
+    <Compile Include="UserInterface\Controls\UpdateTrigger.cs" />
+    <Compile Include="UserInterface\Controls\UpdateTriggerControl.cs" />
+    <Compile Include="UserInterface\Converters\BoolInverterConverter.cs" />
+    <Compile Include="UserInterface\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="UserInterface\Converters\EnumValuesConverter.cs" />
+    <Compile Include="UserInterface\Converters\LevelToIndentConverter.cs" />
+    <Compile Include="UserInterface\Converters\ValueConverterBase.cs" />
+    <Compile Include="UserInterface\DataContextView.xaml.cs">
+      <DependentUpon>DataContextView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\DataContextViewModel.cs" />
+    <Compile Include="UserInterface\EventsView.xaml.cs">
+      <DependentUpon>EventsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\EventsViewModel.cs" />
+    <Compile Include="UserInterface\Helpers\ContextMenuHelper.cs" />
+    <Compile Include="Services\IProcessService.cs" />
+    <Compile Include="UserInterface\Helpers\GridAdorner.cs" />
+    <Compile Include="UserInterface\Helpers\ResizingAdorner.cs" />
+    <Compile Include="UserInterface\Helpers\XmlHelper.cs" />
+    <Compile Include="UserInterface\InspectorViewModel.cs" />
+    <Compile Include="UserInterface\IssueListView.xaml.cs">
+      <DependentUpon>IssueListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\IssuesListViewModel.cs" />
+    <Compile Include="UserInterface\LogicalTreeView.xaml.cs">
+      <DependentUpon>LogicalTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\ResizableWindow.cs" />
+    <Compile Include="UserInterface\ResourceEditor.xaml.cs">
+      <DependentUpon>ResourceEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\ResourcesEditorViewModel.cs" />
+    <Compile Include="UserInterface\ResourcesView.xaml.cs">
+      <DependentUpon>ResourcesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\ResourcesViewModel.cs" />
+    <Compile Include="UserInterface\Helpers\SelectionAdorner.cs" />
+    <Compile Include="UserInterface\StyleExplorerView.xaml.cs">
+      <DependentUpon>StyleExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\StyleExplorerViewModel.cs" />
+    <Compile Include="UserInterface\SyntaxHighlighter.cs" />
+    <Compile Include="UserInterface\TriggerView.xaml.cs">
+      <DependentUpon>TriggerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\TriggerViewModel.cs" />
+    <Compile Include="UserInterface\TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\TreeViewHelper.cs" />
+    <Compile Include="UserInterface\AutomationTreeView.xaml.cs">
+      <DependentUpon>AutomationTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\AutomationViewModel.cs" />
+    <Compile Include="UserInterface\UpdateTriggeredTreeItemViewModel.cs" />
+    <Compile Include="UserInterface\UsageHintViewModel.cs" />
+    <Compile Include="UserInterface\UsageHintWindow.xaml.cs">
+      <DependentUpon>UsageHintWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\VisualTreeView.xaml.cs">
+      <DependentUpon>VisualTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\VisualTreeViewModel.cs" />
+    <Compile Include="UserInterface\XamlView.xaml.cs">
+      <DependentUpon>XamlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\XamlViewModel.cs" />
+    <Compile Include="Utilities\AssemblyHelper.cs" />
+    <Compile Include="Utilities\Command.cs" />
+    <Compile Include="Utilities\EventArgs.cs" />
+    <Compile Include="UserInterface\LogicalTreeViewModel.cs" />
+    <Compile Include="UserInterface\InspectorWindow.xaml.cs">
+      <DependentUpon>InspectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\PropertiesViewModel.cs" />
+    <Compile Include="UserInterface\SelectorWindow.xaml.cs">
+      <DependentUpon>SelectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\SelectorWindowViewModel.cs" />
+    <Compile Include="Utilities\EventHandlerExtensions.cs" />
+    <Compile Include="Utilities\KnownAssemblyNames.cs" />
+    <Compile Include="Utilities\PropertyChangedExtensions.cs" />
+    <Compile Include="Utilities\TreeHelperExtensions.cs" />
+    <Compile Include="Win32\NativeMethods.cs" />
+    <Compile Include="Win32\PlatformHelper.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UserInterface\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\AnalyzerConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\BindingEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\DataContextView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\EventsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\IssueListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\InspectorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\LogicalTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\PropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\ResourceEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\ResourcesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\SelectorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\StyleExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\TriggerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\AutomationTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\UsageHintWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\BrushEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\CheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\Expander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\ListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\ListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\PopupContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\PropertyGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\ScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\Separator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\TextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\ToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\ToolTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\XamlTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\DefaultDataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Inspector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\XamlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\VisualResources\Controls\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\border.png" />
+    <Resource Include="Images\button.png" />
+    <Resource Include="Images\checkbox.png" />
+    <Resource Include="Images\combobox.png" />
+    <Resource Include="Images\grid.png" />
+    <Resource Include="Images\image.png" />
+    <Resource Include="Images\listbox.png" />
+    <Resource Include="Images\radiobutton.png" />
+    <Resource Include="Images\rectangle.png" />
+    <Resource Include="Images\stackpanel.png" />
+    <Resource Include="Images\tabcontrol.png" />
+    <Resource Include="Images\textblock.png" />
+    <Resource Include="Images\textbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error.png" />
+    <Resource Include="Images\information.png" />
+    <Resource Include="Images\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\inspectorlogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\inspectorlogo_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Inspector.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Inspector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+    <Resource Include="Images\xaml.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\trigger_active.png" />
+    <Resource Include="Images\trigger_inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\property.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\datacontext.png" />
+    <Resource Include="Images\resources.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clear.png" />
+    <Resource Include="Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\noprocessicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\group.png" />
+    <Resource Include="Images\sort_az.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UserInterface\VisualResources\Images\triggeritem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UserInterface\VisualResources\Images\resourceitem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UserInterface\VisualResources\Images\active.png" />
+    <Resource Include="UserInterface\VisualResources\Images\inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\type.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\expander.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\separator.png" />
+    <Resource Include="Images\slider.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\richtextbox.png" />
+    <Resource Include="Images\scrollviewer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\passwordbox.png" />
+    <Resource Include="Images\progressbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\listview.png" />
+    <Resource Include="Images\mediaelement.png" />
+    <Resource Include="Images\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\gridsplitter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\canvas.png" />
+    <Resource Include="Images\contentcontrol.png" />
+    <Resource Include="Images\dockpanel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\method_private.png" />
+    <Resource Include="Images\method_protected.png" />
+    <Resource Include="Images\method_public.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\field_private.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

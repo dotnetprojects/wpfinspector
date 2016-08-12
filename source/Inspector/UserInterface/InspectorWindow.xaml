@@ -1,0 +1,173 @@
+﻿<l:ResizeableWindow x:Class="ChristianMoser.WpfInspector.UserInterface.InspectorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="{DynamicResource WindowBackgroundBrush}"
+    xmlns:l="clr-namespace:ChristianMoser.WpfInspector.UserInterface" Title="Christian Mosers - WPF Inspector 1.0"
+    WindowState="{Binding ApplicationSettings.WindowState, Mode=TwoWay}"
+    Top="{Binding ApplicationSettings.MainWindowTop, Mode=TwoWay}"
+    Left="{Binding ApplicationSettings.MainWindowLeft, Mode=TwoWay}"                
+    Width="{Binding ApplicationSettings.MainWindowWidth, Mode=TwoWay}"
+    Height="{Binding ApplicationSettings.MainWindowHeight, Mode=TwoWay}"
+    Icon="/Inspector;component/Images/Inspector.png" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Inspector;component/UserInterface/VisualResources/Inspector.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid Margin="0,50,0,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"  />
+                <ColumnDefinition Width="1.5*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="150" />
+            </Grid.RowDefinitions>
+            <DockPanel>
+                <TabControl TabStripPlacement="Bottom" SelectedIndex="{Binding SelectedTreeIndex, Mode=TwoWay}" Margin="-1,0,0,0"  >
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Margin="0,2" Orientation="Horizontal">
+                                <Image Source="/Inspector;component/Images/tree.png" Width="16" Height="16" />
+                                <TextBlock Margin="4,0" Text="Visual Tree"  />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <l:VisualTreeView />
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Margin="0,2" Orientation="Horizontal">
+                                <Image Source="/Inspector;component/Images/tree.png" Width="16" Height="16" />
+                                <TextBlock Margin="4,0" Text="Logical Tree"  />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <l:LogicalTreeView/>
+                    </TabItem>
+                    <!--<TabItem>
+                        <TabItem.Header>
+                            <StackPanel Margin="0,2" Orientation="Horizontal">
+                                <Image Source="/Inspector;component/Images/tree.png" Width="16" Height="16" />
+                                <TextBlock Margin="4,0" Text="Automation"  />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <l:AutomationTreeView />
+                    </TabItem>-->
+                </TabControl>
+            </DockPanel>
+            <!--<GridSplitter Grid.Column="1" Background="Transparent" ResizeBehavior="PreviousAndNext" Width="4" />
+        <l:XamlView Grid.Column="2" />-->
+            <TabControl Grid.Column="1" Margin="-1,0,-1,0">
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Margin="0,2" Orientation="Horizontal">
+                            <Image Stretch="None" Source="/Inspector;component/Images/property.png" />
+                            <TextBlock Margin="4,0" Text="Properties"  />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <l:PropertiesView />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Margin="0,2" Orientation="Horizontal">
+                            <Image Stretch="None" Source="/Inspector;component/Images/datacontext.png" />
+                            <TextBlock Margin="4,0" Text="DataContext"  />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <l:DataContextView />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Margin="0,2" Orientation="Horizontal">
+                            <Image Stretch="None" Source="/Inspector;component/Images/resources.png" />
+                            <TextBlock Margin="4,0" Text="Resources"  />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <l:ResourcesView />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Margin="0,2" Orientation="Horizontal">
+                            <Image Source="/Inspector;component/Images/trigger_active.png" Width="16" Height="16" />
+                            <TextBlock Margin="4,0" Text="Triggers"  />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <l:TriggerView />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Margin="0,2" Orientation="Horizontal">
+                            <Image Source="/Inspector;component/Images/tree.png" Width="16" Height="16" />
+                            <TextBlock Margin="4,0" Text="Style"  />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <l:StyleExplorerView />
+                </TabItem>
+            </TabControl>
+            <Rectangle Grid.Column="0" Width="7" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#1A000000" Offset="1" />
+                        <GradientStop Color="#00000000" Offset="0" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <GridSplitter Grid.Column="1" Background="Transparent" ResizeDirection="Columns" HorizontalAlignment="Left" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndCurrent" Width="3" />
+            <GridSplitter ResizeDirection="Rows" Background="Transparent" HorizontalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="3" ResizeBehavior="PreviousAndNext" Height="4" />
+            <l:IssueListView Grid.Row="2" Grid.ColumnSpan="5" />
+            <Rectangle Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="10" HorizontalAlignment="Stretch" IsHitTestVisible="False">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#00000000" Offset="1" />
+                        <GradientStop Color="#15000000" Offset="0" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+        <Image IsHitTestVisible="False" Margin="6,6,6,6" Stretch="None" Source="/Inspector;component/Images/inspectorlogo.png" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+        <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250,4,4,4">
+            <MenuItem Header="Application">
+                <MenuItem.Resources>
+                    <Style x:Key="ThemeMenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Name}"></Setter>
+                        <Setter Property="Command" Value="{Binding ActivateCommand}"/>
+                        <Setter Property="IsChecked" Value="{Binding IsActive}" />
+                        <Setter Property="IsCheckable" Value="True"/>
+                    </Style>
+                    <Style x:Key="SizeMenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Name}"></Setter>
+                        <Setter Property="Command" Value="{Binding SizeCommand}"/>
+                    </Style>
+                </MenuItem.Resources>
+                <MenuItem Header="Switch Theme" ItemsSource="{Binding Themes}" 
+                      ItemContainerStyle="{StaticResource ThemeMenuItemStyle}"  />
+                <MenuItem Header="Resize" ItemsSource="{Binding Sizes}" 
+                      ItemContainerStyle="{StaticResource SizeMenuItemStyle}"  />
+                <Separator />
+                <MenuItem Header="Detach Inspector" Command="{Binding DetachCommand}" />
+            </MenuItem>
+            <!--<MenuItem Header="Tools">
+                <MenuItem Header="Options..." />
+            </MenuItem>-->
+            <MenuItem Header="Help">
+                <MenuItem Header="About WPF Inspector" Command="{Binding AboutCommand}" />
+            </MenuItem>
+        </Menu>
+        <!--</Border>
+        <Border CornerRadius="3" Height="40" Width="185" Margin="20,20,0,0" Background="#73706a" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <Image Width="100" Height="40" Margin="200,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Stretch="Fill">
+            <Image.Source>
+                <DrawingImage Drawing="{StaticResource roundedEdge}" />
+            </Image.Source>
+        </Image>
+        <Image Margin="0,5,0,0" IsHitTestVisible="False" Source="/Inspector;component/Images/inspectorlogo.png" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left" />-->
+    </Grid>
+    <!--<Rectangle x:Name="TopDragHandle" Style="{StaticResource ResizeHandle}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="5" />
+                <Rectangle x:Name="BottomDragHandle" Style="{StaticResource ResizeHandle}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="5" />
+                <Rectangle x:Name="LeftDragHandle" Style="{StaticResource ResizeHandle}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Height="5" />
+                <Rectangle x:Name="RightDragHandle" Style="{StaticResource ResizeHandle}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Height="5" />
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="X" Click="OnClose" MinWidth="30" Margin="0,0,8,0" />-->
+
+</l:ResizeableWindow>

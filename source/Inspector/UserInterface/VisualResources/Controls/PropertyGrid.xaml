@@ -1,0 +1,456 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:l="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls" 
+                    xmlns:pi="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls.PropertyItems" xmlns:Helpers="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Helpers" xmlns:Converters="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Converters">
+
+    <Style x:Key="PropertyContextStyle" TargetType="Control">
+        <Setter Property="Background" Value="{DynamicResource LightBackgroundBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Control">
+                    <Border x:Name="sourceRect" Height="10" Width="10" Background="{TemplateBinding Background}" CornerRadius="1" Margin="6" BorderThickness="1"  
+                            Helpers:ContextMenuHelper.OpenOnClick="True">
+                        <Border.ToolTip>
+                            <TextBlock x:Name="toolTip" Text="{Binding ValueSource}" />
+                        </Border.ToolTip>
+                        <Border.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="Reset Value" Command="{Binding Path=PlacementTarget.DataContext.ResetCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                <MenuItem Header="DataBinding..." Command="{Binding Path=PlacementTarget.DataContext.EditBindingCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                <MenuItem Header="Resources..." Command="{Binding Path=PlacementTarget.DataContext.EditResourceCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                            </ContextMenu>
+                        </Border.ContextMenu>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="sourceRect" Property="BorderBrush" Value="{DynamicResource DefaultForegroundBrush}" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding IsDataBound}" Value="True">
+                            <Setter TargetName="toolTip" Property="Text" Value="{Binding BindingExpression}" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CompositeExpander" TargetType="Expander" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Expander">
+                    <StackPanel>
+                        <Grid Margin="1" Height="24" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Foreground="{DynamicResource DefaultForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0,8,0" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                            <ToggleButton x:Name="expandButton"  Width="12" Height="12" MinWidth="12" IsChecked="{Binding Path=IsExpanded,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" 
+                                      OverridesDefaultStyle="True" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Grid Width="14" Height="14" Background="Transparent">
+                                            <Path x:Name="ExpandPath" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Fill="{DynamicResource DefaultForegroundBrush}" Data="M 4 0 L 8 4 L 4 8 Z"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Data" TargetName="ExpandPath" Value="M 0 4 L 8 4 L 4 8 Z"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Border x:Name="boundBorder" Grid.Column="1" BorderThickness="1" >
+                                <TextBox Text="{Binding TypeName, Mode=OneWay}" ToolTip="{TemplateBinding Header}" ToolTipService.ShowOnDisabled="True" BorderThickness="0" IsEnabled="False" />
+                            </Border>
+                            <TextBlock x:Name="nullText" VerticalAlignment="Center" Visibility="Collapsed" Grid.Column="1" Margin="8,0" FontStyle="Italic" Text="null" Opacity="0.5" />
+                            <Control x:Name="valueSource" Style="{StaticResource PropertyContextStyle}" Grid.Column="2"  />
+                        </Grid>
+                        <ContentPresenter x:Name="Content" Visibility="Collapsed" Margin="4"  />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding HasChildren}" Value="False" >
+                            <Setter Property="Visibility" TargetName="expandButton" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ValueSource}" Value="Unknown" >
+                            <Setter Property="Background" TargetName="valueSource" Value="Transparent" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ValueSource}" Value="Local" >
+                            <Setter Property="Background" TargetName="valueSource" Value="{DynamicResource DefaultForegroundBrush}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsDynamicResource}" Value="True">
+                            <Setter Property="Background" TargetName="valueSource" Value="LightGreen" />
+                            <Setter Property="BorderBrush" TargetName="boundBorder" Value="LightGreen" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsDataBound}" Value="True">
+                            <Setter Property="Background" TargetName="valueSource" Value="Orange" />
+                            <Setter Property="BorderBrush" TargetName="boundBorder" Value="Orange" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Value}" Value="{x:Null}" >
+                            <Setter Property="Visibility" Value="Visible" TargetName="nullText" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="expandButton" />
+                        </DataTrigger>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="Content" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type l:PropertyGrid}">
+        <Style.Resources>
+            <ControlTemplate x:Key="DefaultPropertyTemplate" TargetType="ContentControl">
+                <ControlTemplate.Resources>
+                    <Storyboard x:Key="MarkChanged">
+                        <ColorAnimation BeginTime="00:00:00.00" Duration="00:00:00.00"
+                                        Storyboard.TargetName="mainGrid" Storyboard.TargetProperty="Background.Color" From="Transparent" To="#b6cfef" />
+                    </Storyboard>
+                    <Storyboard x:Key="MarkNormal">
+                        <ColorAnimation BeginTime="00:00:00.00" Duration="00:00:04.00"
+                                        Storyboard.TargetName="mainGrid" Storyboard.TargetProperty="Background.Color" To="Transparent" />
+                    </Storyboard>
+                </ControlTemplate.Resources>
+                <Grid x:Name="mainGrid" Background="Transparent" Margin="1,1,0,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="22" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton Style="{DynamicResource BreakpointToggleButtonStyle}" Width="14" Height="14" IsChecked="{Binding IsBreakpoint}" ToolTip="Break into debugger, when the value changes." VerticalAlignment="Center" />
+                    <Image Source="/Inspector;component/Images/property.png" Width="16" Height="16" Grid.Column="1" SnapsToDevicePixels="True" VerticalAlignment="Center" Stretch="None" />
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4,0,8,0" Foreground="{DynamicResource DefaultForegroundBrush}" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                    <Border x:Name="boundBorder" Grid.Column="3" CornerRadius="3" BorderThickness="1">
+                        <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                    <Control x:Name="valueSource" Style="{StaticResource PropertyContextStyle}" Grid.Column="4"  />
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding ValueSource}" Value="Unknown" >
+                        <Setter Property="Background" TargetName="valueSource" Value="Transparent" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ValueSource}" Value="Local" >
+                        <Setter Property="Background" TargetName="valueSource" Value="{DynamicResource DefaultForegroundBrush}" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsDynamicResource}" Value="True">
+                        <Setter Property="Background" TargetName="valueSource" Value="LightGreen" />
+                        <Setter Property="BorderBrush" TargetName="boundBorder" Value="LightGreen" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsDataBound}" Value="True">
+                        <Setter Property="Background" TargetName="valueSource" Value="Orange" />
+                        <Setter Property="BorderBrush" TargetName="boundBorder" Value="Orange" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsChanged}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard x:Name="markChanged" Storyboard="{StaticResource MarkChanged}" />
+                            <StopStoryboard BeginStoryboardName="markNormal" />
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard x:Name="markNormal" Storyboard="{StaticResource MarkNormal}" />
+                            <StopStoryboard BeginStoryboardName="markChanged" />
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <DataTemplate DataType="{x:Type pi:PropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" Height="26" >
+                    <TextBox Text="{Binding Value, Mode=TwoWay}" IsReadOnly="{Binding IsEditable, Converter={Converters:BoolInverterConverter}}"
+                             Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True" />
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:CommandPropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" Height="26" >
+                    <Grid>
+                        <Button x:Name="button" Command="{Binding ExecuteCommand}" Content="Execute" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock x:Name="nullText" Visibility="Collapsed" Text="null" FontStyle="Italic" Opacity="0.6" />
+                    </Grid>
+                </ContentControl>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding ExecuteCommand}" Value="{x:Null}" >
+                        <Setter Property="Visibility" Value="Visible" TargetName="nullText" />
+                        <Setter Property="Visibility" Value="Collapsed" TargetName="button" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:BooleanPropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Center" Height="26" >
+                    <CheckBox Margin="2" IsChecked="{Binding Value, Mode=TwoWay}" BorderThickness="0" HorizontalAlignment="Left" IsEnabled="{Binding IsEditable}" />
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:EnumPropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Center" Height="26" >
+                    <ComboBox ItemsSource="{Binding EnumValues}" IsSynchronizedWithCurrentItem="True" IsEnabled="{Binding IsEditable}"/>
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:GridLengthPropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Center" Height="26" >
+                    <DockPanel>
+                        <TextBox  x:Name="units" Text="{Binding Units}" Width="30" Margin="0,0,4,0" VerticalAlignment="Center"  DockPanel.Dock="Left"
+                                  Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                        <ComboBox ItemsSource="{Binding UnitTypes}" IsSynchronizedWithCurrentItem="True" IsEnabled="{Binding IsEditable}"/>
+                    </DockPanel>
+                </ContentControl>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding UnitTypes.CurrentItem}" Value="{x:Static GridUnitType.Star}">
+                        <Setter Property="IsEnabled" Value="False" TargetName="units" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:ThicknessPropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Center" Height="50" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="*"  />
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="*"  />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="L" Margin="0,0,4,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="T" Margin="0,0,4,0" VerticalAlignment="Center"  />
+                        <TextBlock Grid.Row="1" Text="R" Margin="0,0,4,0" VerticalAlignment="Center"  />
+                        <TextBlock Grid.Column="2" Grid.Row="1" Text="B" Margin="0,0,4,0" VerticalAlignment="Center"  />
+                        <TextBox Grid.Column="1" Text="{Binding Left}" Margin="1" 
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                        <TextBox Grid.Column="3" Text="{Binding Top}" Margin="1" 
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Right}" Margin="1"  
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                        <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding Bottom}" Margin="1"  
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                    </Grid>
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:CornerRadiusPropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Center" Height="50" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="*"  />
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="*"  />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="TL" Margin="0,0,4,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="TR" Margin="0,0,4,0" VerticalAlignment="Center"  />
+                        <TextBlock Grid.Row="1" Text="BR" Margin="0,0,4,0" VerticalAlignment="Center"  />
+                        <TextBlock Grid.Column="2" Grid.Row="1" Text="BL" Margin="0,0,4,0" VerticalAlignment="Center"  />
+                        <TextBox Grid.Column="1" Text="{Binding TopLeft}" Margin="1" 
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                        <TextBox Grid.Column="3" Text="{Binding TopRight}" Margin="1" 
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding BottomRight}" Margin="1"  
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                        <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding BottomLeft}" Margin="1"  
+                                 Helpers:TextBoxHelper.SelectOnFocus="True" Helpers:TextBoxHelper.UpdateOnEnter="True"/>
+                    </Grid>
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:CompositePropertyItem}" >
+                <Expander Style="{StaticResource CompositeExpander}" Header="{Binding Value}" >
+                    <ItemsControl ItemsSource="{Binding Properties}" >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Expander>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:ListItemPropertyItem}" >
+                <Expander >
+                    <Expander.Header>
+                        <TextBlock Foreground="{DynamicResource DefaultForegroundBrush}" Text="{Binding Name}" Height="24" />
+                    </Expander.Header>
+                    <ItemsControl ItemsSource="{Binding Properties}" >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Expander>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:BrushPropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Stretch" Height="24" >
+                    <l:PopupContentControl Background="{Binding Value}">
+                        <l:BrushEditor BrushItem="{Binding}"  />
+                    </l:PopupContentControl>
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:StylePropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Stretch" Height="24" >
+                    <ComboBox ItemsSource="{Binding Styles}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" />
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:ImagePropertyItem}">
+                <ContentControl Template="{StaticResource DefaultPropertyTemplate}" VerticalContentAlignment="Stretch" Height="26" >
+                    <DockPanel>
+                        <Button Width="24" DockPanel.Dock="Right" Content="..." Command="{Binding BrowseCommand}" />
+                        <TextBox Text="{Binding Source, Mode=TwoWay}" IsReadOnly="{Binding IsEditable, Converter={Converters:BoolInverterConverter}}" />
+                    </DockPanel>
+                    <ContentControl.ToolTip>
+                        <ToolTip>
+                            <Image Source="{Binding Value}" StretchDirection="DownOnly" MaxWidth="200" MaxHeight="200" />
+                        </ToolTip>
+                    </ContentControl.ToolTip>
+                </ContentControl>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:MethodItem}">
+                <Grid Height="24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="22" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="1" Source="/Inspector;component/Images/method_public.png" Width="16" Height="16" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" Text="{Binding Name}" Margin="4,0,0,0" VerticalAlignment="Center" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pi:FieldItem}">
+                <Grid Height="24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="22" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="1" Source="/Inspector;component/Images/field_private.png" Width="16" Height="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="{Binding Name}" Margin="4,0,0,0" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="3" Text="{Binding Value}" VerticalAlignment="Center" />
+                </Grid>
+            </DataTemplate>
+
+        </Style.Resources>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type l:PropertyGrid}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <DockPanel>
+                                <DockPanel DockPanel.Dock="Top" Margin="4" >
+                                    <ToggleButton IsChecked="{Binding IsGrouping, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="22" Height="22" DockPanel.Dock="Left" ToolTip="Group by category">
+                                        <Image Source="/Inspector;component/Images/group.png" Height="16" Width="16" />
+                                    </ToggleButton>
+                                    <ToggleButton IsChecked="{Binding IsShowModifiedOnly, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="22" Height="22" DockPanel.Dock="Left" ToolTip="Show only recently modified values">
+                                        <Image Source="/Inspector;component/Images/trigger_active.png" Height="16" Width="16" />
+                                    </ToggleButton>
+                                    <l:SearchTextBox Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" DockPanel.Dock="Left" />
+                                </DockPanel>
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="8,2,0,4">
+                                    <Image Source="/Inspector;component/Images/type.png" Width="16" Height="16" />
+                                    <TextBlock Margin="4,0,0,0" Text="{Binding Type, RelativeSource={RelativeSource TemplatedParent}}" >
+                                    <TextBlock.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding FullType, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Bold"/>     
+                                                <TextBlock Margin="4,0,0,0" Text="{Binding HashCode, StringFormat='{}Hashcode: {0}', RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.5" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
+                                </StackPanel>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                                    <Grid>
+                                        <ItemsControl ItemsSource="{Binding Properties, RelativeSource={RelativeSource TemplatedParent}}"
+                                                HorizontalContentAlignment="Stretch"  >
+                                            <ItemsControl.ItemContainerStyle>
+                                                <Style TargetType="ContentPresenter">
+                                                    <Setter Property="pi:PropertyItemHelper.BringIntoView" Value="False" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                            <Setter Property="pi:PropertyItemHelper.BringIntoView" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ItemsControl.ItemContainerStyle>
+                                            <ItemsControl.GroupStyle>
+                                                <GroupStyle>
+                                                    <GroupStyle.ContainerStyle>
+                                                        <Style TargetType="{x:Type GroupItem}">
+                                                            <Setter Property="Margin" Value="0,0,0,2"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                                        <Grid>
+                                                                            <Border BorderThickness="0,1,0,0" VerticalAlignment="Top" Height="10">
+                                                                                <Border.Background>
+                                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,8" MappingMode="Absolute">
+                                                                                        <GradientStop Offset="0" Color="#20000000" />
+                                                                                        <GradientStop Offset="1" Color="#00000000" />
+                                                                                    </LinearGradientBrush>
+                                                                                </Border.Background>
+                                                                                <Border.OpacityMask>
+                                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                                        <GradientStop Offset="0" Color="Transparent" />
+                                                                                        <GradientStop Offset="0.4" Color="White" />
+                                                                                        <GradientStop Offset="0.6" Color="White" />
+                                                                                        <GradientStop Offset="1" Color="Transparent" />
+                                                                                    </LinearGradientBrush>
+                                                                                </Border.OpacityMask>
+                                                                            </Border>
+                                                                            <Expander IsExpanded="True" Margin="0,8,0,0">
+                                                                                <Expander.Header>
+                                                                                    <TextBlock Foreground="{DynamicResource DefaultForegroundBrush}" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Path=Name}" Margin="8,0,0,0"/>
+                                                                                </Expander.Header>
+                                                                                <Expander.Content>
+                                                                                    <ItemsPresenter />
+                                                                                </Expander.Content>
+                                                                            </Expander>
+                                                                        </Grid>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </GroupStyle.ContainerStyle>
+                                                </GroupStyle>
+                                            </ItemsControl.GroupStyle>
+                                        </ItemsControl>
+                                    </Grid>
+                                </ScrollViewer>
+                            </DockPanel>
+                            <Border Background="White" x:Name="loadingOverlay" Visibility="Collapsed">
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Loading..." />
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" TargetName="loadingOverlay" Value="Visible" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

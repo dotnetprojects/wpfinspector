@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="ChristianMoser.WpfInspector.UserInterface.VisualTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#f4f4f4">
+    <Grid>
+        <ListBox Grid.Row="1" Style="{DynamicResource TreeListBoxStyle}" ItemsSource="{Binding Elements}" Margin="2,16,2,2" >
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show Element Selection" IsCheckable="True" IsChecked="{Binding MouseElementServiceSettings.IsShowAdorner}" />
+                    <Separator />
+                    <MenuItem Header="Invalidate Visual" Command="{Binding Path=PlacementTarget.DataContext.InvalidateVisualCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <MenuItem Header="Invalidate Arrange" Command="{Binding Path=PlacementTarget.DataContext.InvalidateArrangeCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <MenuItem Header="Invalidate Measure" Command="{Binding Path=PlacementTarget.DataContext.InvalidateMeasureCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <MenuItem Header="Bring Into View" Command="{Binding Path=PlacementTarget.DataContext.BringIntoViewCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <MenuItem Header="Focus" Command="{Binding Path=PlacementTarget.DataContext.FocusCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+    </Grid>
+</UserControl>

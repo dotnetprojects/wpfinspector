@@ -1,0 +1,53 @@
+﻿<Window x:Class="ChristianMoser.WpfInspector.UserInterface.BindingEditorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    ShowInTaskbar="False" Background="{DynamicResource WindowBackgroundBrush}"
+    Title="Binding Editor" Width="500" Height="500" Icon="/Inspector;component/Images/Inspector.png">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Inspector;component/UserInterface/VisualResources/Inspector.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Margin="8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Margin="8" Grid.ColumnSpan="2" Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <TextBlock Margin="0,0,8,0" Text="Source:" VerticalAlignment="Center"  />
+                <ComboBox ItemsSource="{Binding Sources}" IsSynchronizedWithCurrentItem="True"  />
+            </StackPanel>
+            <Border Grid.Row="1" Grid.ColumnSpan="2" BorderThickness="1" CornerRadius="3" BorderBrush="{DynamicResource DefaultBorderBrush}" Background="{DynamicResource DefaultBackgroundBrush}">
+                <TreeView x:Name="tree" Style="{DynamicResource BindingEditorTreeViewStyle}" ItemsSource="{Binding SourceList}" />
+            </Border>
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="8" Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock Margin="0,0,8,0" Text="Update Trigger:" VerticalAlignment="Center"  />
+                <ComboBox Margin="0,0,8,0" ItemsSource="{Binding UpdateSourceTriggers}" IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" />
+                <TextBlock Margin="0,0,8,0" Text="Mode:" VerticalAlignment="Center"  />
+                <ComboBox ItemsSource="{Binding Modes}" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="True" />
+            </StackPanel>
+        </Grid>
+        <TextBox Grid.Row="1" Text="{Binding Expression}" Margin="8,0,8,8" IsReadOnly="True" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8" HorizontalAlignment="Right">
+            <Button Click="OkClick">
+                <TextBlock Text="Ok" />
+            </Button>
+            <Button Margin="8,0,0,0" IsCancel="True" >
+                <TextBlock Text="Cancel" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

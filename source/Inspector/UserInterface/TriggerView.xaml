@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="ChristianMoser.WpfInspector.UserInterface.TriggerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Converters" xmlns:c="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls">
+    <Grid>
+        <c:UpdateTriggerControl UpdateTrigger="{Binding UpdateTrigger}" />
+        <ScrollViewer Visibility="{Binding IsEmpty, Converter={Converters:BoolToVisibilityConverter}, ConverterParameter=True}">
+            <ItemsControl ItemsSource="{Binding Triggers}" >
+                <ItemsControl.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,2"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <StackPanel Margin="8">
+                                                <TextBlock Foreground="{DynamicResource DefaultForegroundBrush}" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Path=Name}" />
+                                                <ItemsPresenter Margin="0,4,0,0" />
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ItemsControl.GroupStyle>
+            </ItemsControl>
+        </ScrollViewer>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="The element has no triggers" Visibility="{Binding IsEmpty, Converter={Converters:BoolToVisibilityConverter}}" Opacity="0.6"  />
+    </Grid>
+</UserControl>

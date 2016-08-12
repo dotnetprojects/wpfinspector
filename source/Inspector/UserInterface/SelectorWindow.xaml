@@ -1,0 +1,89 @@
+﻿<Window x:Class="ChristianMoser.WpfInspector.UserInterface.SelectorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    WindowStartupLocation="CenterScreen" Icon="/Inspector;component/Images/Inspector.png" 
+    Height="350" Width="500" MinWidth="200" MinHeight="200" Background="{DynamicResource WindowBackgroundBrush}"
+    Title="WPF Inspector">
+    <Grid>
+        <Control>
+            <Control.Template>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"  />
+                            <RowDefinition Height="*"  />
+                            <RowDefinition Height="Auto"  />
+                        </Grid.RowDefinitions>
+                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="100" Fill="{DynamicResource WindowOverlayGradientBrush}" />
+                        <ListView Grid.Row="1" ItemsSource="{Binding ManagedApplicationsInfo.ManagedApplicationInfos}" MouseDoubleClick="ListBoxMouseDoubleClick" BorderThickness="0,1"
+                                  VerticalContentAlignment="Center" IsSynchronizedWithCurrentItem="True">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                    <Setter Property="Height" Value="34" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" Width="325" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                    <Image Height="24" Width="24" Stretch="Uniform" Source="{Binding ProcessIcon}"  />
+                                                    <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{Binding Name}"  />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Runtime" Width="80" DisplayMemberBinding="{Binding RuntimeVersion, StringFormat='{}.NET {0}'}" />
+                                    <GridViewColumn Header="Type" Width="80" DisplayMemberBinding="{Binding Bitness, StringFormat='{}{0}-Bit'}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <TextBlock Grid.Row="1"  x:Name="infoText" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5"  />
+                        <Button Grid.Row="2" Margin="8" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Content="Attach" Command="{Binding InspectCommand}" />
+                        <Image Grid.RowSpan="2" SnapsToDevicePixels="True" IsHitTestVisible="False" Margin="12,6,6,6" Stretch="None" Source="/Inspector;component/Images/inspectorlogo.png" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <!--<MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding UpdateInformation.State}" Value="Available" />
+                                <Condition Binding="{Binding UpdateInformation.IsLatestVersion}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Content" TargetName="webpageLink" Value="New Version available!" />
+                            <Setter Property="ToolTip" TargetName="webpageLink" Value="{Binding UpdateInformation.ReleaseNotes}" />
+                            <Setter Property="FontWeight" TargetName="webpageLink" Value="Bold" />
+                        </MultiDataTrigger>-->
+                        <DataTrigger Binding="{Binding ManagedApplicationsInfo.ManagedApplicationInfos.Count}" Value="0" >
+                            <Setter Property="Visibility" TargetName="infoText" Value="Visible" />
+                            <Setter Property="Text" TargetName="infoText" Value="No running WPF application detected." />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ManagedApplicationsInfo.State}" Value="Loading" >
+                            <Setter Property="Visibility" TargetName="infoText" Value="Visible" />
+                            <Setter Property="Text" TargetName="infoText" Value="Loading..." />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ManagedApplicationsInfo.State}" Value="Error" >
+                            <Setter Property="Visibility" TargetName="infoText" Value="Visible" />
+                            <Setter Property="Text" TargetName="infoText" Value="Error while querying running applications." />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
+
+        <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Margin="230,4,4,4">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <!--<MenuItem Header="Tools">
+                <MenuItem Header="Options..." />
+            </MenuItem>-->
+            <MenuItem Header="Help">
+                <MenuItem Header="Visit Website..." Command="{Binding VisitWebpageCommand}" />
+                <Separator />
+                <MenuItem Header="About WPF Inspector" Command="{Binding AboutCommand}" />
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>

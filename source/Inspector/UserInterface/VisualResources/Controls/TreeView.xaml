@@ -1,0 +1,166 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:UserInterface="clr-namespace:ChristianMoser.WpfInspector.UserInterface">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Inspector;component/UserInterface/VisualResources/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type TreeView}" TargetType="TreeView">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TreeView">
+                    <Border Name="Border" Background="{DynamicResource DefaultBackgroundBrush}" BorderBrush="{DynamicResource DefaultBorderBrush}" BorderThickness="1" >
+                        <ScrollViewer Focusable="False" CanContentScroll="False" Padding="4">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style x:Key="{x:Type TreeViewItem}" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="Padding" Value="2,0,2,0"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="4" Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton x:Name="Expander" Style="{DynamicResource ExpandCollapseToggleStyle}" IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"/>
+                        <Border Name="Bd" CornerRadius="2" Grid.Column="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Grid.Column="1"/>
+                        </Border>
+                        <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="false">
+                            <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="HasHeader" Value="false"/>
+                                <Condition Property="Width" Value="Auto"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_Header" Property="MinWidth" Value="75"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="HasHeader" Value="false"/>
+                                <Condition Property="Height" Value="Auto"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_Header" Property="MinHeight" Value="19"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource LightBackgroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource DefaultForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BindingEditorTreeViewStyle" TargetType="TreeView">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="icon" Stretch="None" Source="/Inspector;component/Images/property.png" Margin="2" />
+                        <TextBlock Height="20" Foreground="{DynamicResource DefaultForegroundBrush}" Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="InspectorTreeViewStyle" TargetType="TreeView">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="icon" Stretch="None" Source="/Inspector;component/Images/window.png" Margin="2" />
+                        <TextBlock Height="20" Foreground="{DynamicResource DefaultForegroundBrush}" Text="{Binding Name}" />
+                        <StackPanel.ToolTip>
+                            <ToolTip Width="200" Height="200" >
+                                <Rectangle>
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{Binding Instance}"  Stretch="Uniform" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </ToolTip>
+                        </StackPanel.ToolTip>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="Window">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/window.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="TextBlock">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/textblock.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="StackPanel">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/stackpanel.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Grid">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/grid.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Button">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/button.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="TextBox">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/textbox.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="TabControl">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/tabcontrol.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Image">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/image.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="ComboBox">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/combobox.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="ListBox">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/listbox.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="CheckBox">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/checkbox.png"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="RadioButton">
+                            <Setter TargetName="icon" Property="Source" Value="/Inspector;component/Images/radiobutton.png"  />
+                        </DataTrigger>
+                    </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

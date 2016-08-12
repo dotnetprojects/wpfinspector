@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="ChristianMoser.WpfInspector.UserInterface.PropertiesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:l="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls">
+    <Grid>
+        <l:UpdateTriggerControl UpdateTrigger="{Binding UpdateTrigger}"  />
+        <l:PropertyGrid x:Name="propertyGrid" IsCategorized="True" 
+                               SelectedObject="{Binding SelectedTreeItem.Instance}"
+                               SelectedProperty="{Binding SelectedProperty}"/>
+        <Control VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+            <Control.Template>
+                <ControlTemplate>                        
+                    <TextBlock x:Name="nullText" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Text="No tree element selected" Opacity="0.5"  />
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding SelectedTreeItem}" Value="{x:Null}" >
+                            <Setter Property="Visibility" Value="Visible" TargetName="nullText" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Control.Template>
+        </Control>
+    </Grid>
+    
+</UserControl>

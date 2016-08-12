@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="ChristianMoser.WpfInspector.UserInterface.IssueListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="8,4,0,4" Orientation="Horizontal" HorizontalAlignment="Left">
+            <ToggleButton Margin="0,0,4,0" IsChecked="{Binding IsShowErrors}" HorizontalContentAlignment="Left" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Inspector;component/Images/error.png" Height="14" />
+                    <TextBlock Margin="4,0,0,0" Text="{Binding Errors}" />
+                    <TextBlock Margin="4,0,0,0" Text="Errors" />
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton Margin="0,0,4,0" IsChecked="{Binding IsShowWarnings}" HorizontalContentAlignment="Left" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Inspector;component/Images/warning.png" Height="14" />
+                    <TextBlock Margin="4,0,0,0" Text="{Binding Warnings}" />
+                    <TextBlock Margin="4,0,0,0" Text="Warnings" />
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton Margin="0,0,4,0" IsChecked="{Binding IsShowMessages}" HorizontalContentAlignment="Left" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Inspector;component/Images/information.png" Height="14" />
+                    <TextBlock Margin="4,0,0,0" Text="{Binding Messages}" />
+                    <TextBlock Margin="4,0,0,0" Text="Informations" />
+                </StackPanel>
+            </ToggleButton>
+            <Button Margin="16,0,0,0" Command="{Binding ConfigureAnalyzersCommand}"  >
+                <TextBlock Text="Configure Rules..." />
+            </Button>
+        </StackPanel>
+        
+        <ListView Grid.Row="1" ItemsSource="{Binding Issues}" SelectionChanged="ListView_SelectionChanged" BorderThickness="0">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy to clipboard" Command="{Binding CopyToClipboardCommand}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image x:Name="image" Source="/Inspector;component/Images/information.png" Height="14" Width="14" />
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Severity}" Value="Error" >
+                                            <Setter TargetName="image" Property="Source" Value="/Inspector;component/Images/error.png" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Severity}" Value="Warning" >
+                                            <Setter TargetName="image" Property="Source" Value="/Inspector;component/Images/warning.png" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Description" Width="500" DisplayMemberBinding="{Binding Description}" />
+                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Category}" />
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+    
+</UserControl>

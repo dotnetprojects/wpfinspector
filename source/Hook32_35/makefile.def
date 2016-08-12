@@ -1,0 +1,3 @@
+LIBRARY	"Hook32"
+EXPORTS
+   MessageHookProc   @1

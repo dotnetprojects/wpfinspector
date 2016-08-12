@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls">
+
+
+
+    <Style TargetType="{x:Type c:BrushEditor}" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:BrushEditor}">
+                    <TabControl x:Name="PART_BrushSelector">
+                        <TabItem Header="Solid">
+                            <c:ColorPicker x:Name="PART_SolidColorPicker" />
+                        </TabItem>
+                        <TabItem Header="Linear" >
+                            <Grid Width="270" Height="180">
+                                <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="No editor available yet..." Opacity="0.6" />
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Radial" >
+                            <Grid Width="270" Height="180">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="No editor available yet..." Opacity="0.6" />
+                            </Grid>
+                        </TabItem>
+                        <!--<TabItem Header="Resource">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="No editor available yet..." Opacity="0.6" />
+                        </TabItem>-->
+                    </TabControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

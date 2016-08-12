@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="ChristianMoser.WpfInspector.UserInterface.DataContextView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+     xmlns:Converters="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Converters" 
+     xmlns:l="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls">
+    <Grid>
+        <l:UpdateTriggerControl UpdateTrigger="{Binding UpdateTrigger}"  />
+        <l:PropertyGrid SelectedObject="{Binding DataContextInfo.DataContext}" IsGrouping="False" IsCategorized="False" Visibility="{Binding DataContextInfo.IsNull, Converter={Converters:BoolToVisibilityConverter}, ConverterParameter=True}" />
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="DataContext is 'null'" Visibility="{Binding DataContextInfo.IsNull, Converter={Converters:BoolToVisibilityConverter}}" Opacity="0.6"  />
+    </Grid>
+</UserControl>

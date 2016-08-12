@@ -1,0 +1,22 @@
+﻿<Window x:Class="ChristianMoser.WpfInspector.UserInterface.UsageHintWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{DynamicResource WindowBackgroundBrush}"
+    Title="Usage Introduction" Height="200" Width="400">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Inspector;component/UserInterface/VisualResources/Inspector.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Foreground="{StaticResource DefaultForegroundBrush}" Margin="8" Text="To select an element hover over the application while pressing the [CTRL] key. To select parts of the template also press [SHIFT]."  TextWrapping="Wrap" />
+        <CheckBox HorizontalAlignment="Left" Grid.Row="1" IsChecked="{Binding DontShowHintAgaing}" Content="Never show again" Margin="8" VerticalAlignment="Center" />
+        <Button Grid.Row="1" Margin="8" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="OK" IsDefault="True" IsCancel="True"  />
+    </Grid>
+</Window>

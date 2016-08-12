@@ -1,0 +1,39 @@
+﻿<Window x:Class="ChristianMoser.WpfInspector.UserInterface.ResourceEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:c="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls" Background="{DynamicResource WindowBackgroundBrush}"
+    Title="Resources" Height="500" Width="500">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Inspector;component/UserInterface/VisualResources/Inspector.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <c:SearchTextBox Margin="8" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" />
+        <ListView MouseDoubleClick="ListBox_MouseDoubleClick" Margin="8,0" Grid.Row="1" ItemsSource="{Binding Resources}" IsSynchronizedWithCurrentItem="True"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Value" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentPresenter Content="{Binding Value}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Right" Margin="8" >
+            <Button Content="OK" IsDefault="True" Click="OkClicked" />
+            <Button Margin="8,0,0,0" Content="Cancel" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

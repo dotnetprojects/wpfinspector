@@ -1,0 +1,96 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:ChristianMoser.WpfInspector.UserInterface.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Inspector;component/UserInterface/VisualResources/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource DefaultForegroundBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+    </Style>
+
+    <Style TargetType="{x:Type c:SearchTextBox}" >
+        <Setter Property="Foreground" Value="{DynamicResource DefaultForegroundBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="{DynamicResource DefaultBackgroundBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border BorderThickness="1" BorderBrush="{DynamicResource DefaultBorderBrush}" CornerRadius="2" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"  />
+                                <ColumnDefinition Width="Auto"  />
+                            </Grid.ColumnDefinitions>
+                            <ScrollViewer Margin="0,1,0,0" x:Name="PART_ContentHost"/>
+                            <TextBlock Visibility="Collapsed" x:Name="hint" Opacity="0.3" Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Search..." FontStyle="Italic" />
+                            <Button x:Name="clearButton" Grid.Column="1" MinWidth="18" Width="18" Height="18" Command="{Binding ClearTextCommand, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" >
+                                <Image x:Name="image" Source="/Inspector;component/Images/search.png" Stretch="None" Margin="1,1,3,1" />
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button" >
+                                        <Border x:Name="border">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="{DynamicResource InactiveBackgroundBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Text" Value="" />
+                                <Condition Property="IsKeyboardFocused" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" TargetName="hint" Value="Visible" />
+                        </MultiTrigger>
+                        <Trigger SourceName="clearButton"  Property="IsEnabled" Value="True">
+                            <Setter Property="Source" TargetName="image" Value="/Inspector;component/Images/clear.png" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource LightBackgroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="TextBox">
+        <Setter Property="Foreground" Value="{DynamicResource DefaultForegroundBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="Background" Value="{DynamicResource DefaultBackgroundBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border BorderThickness="1" BorderBrush="{DynamicResource DefaultBorderBrush}" CornerRadius="2" Background="{TemplateBinding Background}">
+                        <ScrollViewer Margin="0,1,0,0" x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource LightBackgroundBrush}" />
+            </Trigger>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Background" Value="{DynamicResource LightBackgroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
+
+</ResourceDictionary>
