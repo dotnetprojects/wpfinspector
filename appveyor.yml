@@ -21,4 +21,4 @@ test: off
 artifacts:
   - path: source\bin
     type: zip
-    name: inspector.zip  
+    name: inspector 
