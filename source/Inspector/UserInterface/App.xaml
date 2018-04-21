@@ -1,7 +1,7 @@
 ﻿<Application x:Class="ChristianMoser.WpfInspector.UserInterface.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    StartupUri="/UserInterface/TestWindow.xaml">
+    StartupUri="/UserInterface/SelectorWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
