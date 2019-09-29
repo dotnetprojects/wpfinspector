@@ -33,33 +33,49 @@ namespace ChristianMoser.WpfInspector.UserInterface.Controls.PropertyItems
             {
                 // Add other applicable styles
                 var targetType = fe.GetType();
-                foreach (var resource in ResourceHelper.GetResourcesRecursivelyIncludingApp<Style>(fe))
+                try
                 {
-                    var styleResource = resource.Value as Style;
-                    if (styleResource != null && styleResource.TargetType != null)
+                    foreach (var resource in ResourceHelper.GetResourcesRecursivelyIncludingApp<Style>(fe))
                     {
-                        if ((targetType == styleResource.TargetType || targetType.IsSubclassOf(styleResource.TargetType)))
+                        try
                         {
-                            var resourceStyleItem = new StyleItem(styleResource, fe, StyleHelper.GetKeyString(resource.Key),
-                                                                  StyleHelper.GetSource(resource.Owner), StyleScope.Local);
+                            var styleResource = resource.Value as Style;
+                            if (styleResource != null && styleResource.TargetType != null)
+                            {
+                                if ((targetType == styleResource.TargetType || targetType.IsSubclassOf(styleResource.TargetType)))
+                                {
+                                    var resourceStyleItem = new StyleItem(styleResource, fe, StyleHelper.GetKeyString(resource.Key),
+                                                                          StyleHelper.GetSource(resource.Owner), StyleScope.Local);
 
-                            _styleItems.Add(resourceStyleItem);
+                                    _styleItems.Add(resourceStyleItem);
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        { }
+                    }
+                }
+                catch (Exception) 
+                { }
+
+                // Add the current style
+                StyleItem styleItem = null;
+                try
+                {
+                    if (StyleHelper.TryGetStyleItem(fe, style, out styleItem))
+                    {
+                        if (!_styleItems.Contains(styleItem))
+                        {
+                            _styleItems.Add(styleItem);
                         }
                     }
                 }
-
-                // Add the current style
-                StyleItem styleItem;
-                if (StyleHelper.TryGetStyleItem(fe, style, out styleItem))
-                {
-                    if (!_styleItems.Contains(styleItem))
-                    {
-                        _styleItems.Add(styleItem);
-                    }
-                }
+                catch (Exception)
+                { }
 
                 Styles.Refresh();
-                Styles.MoveCurrentTo(styleItem);
+                if (styleItem != null)
+                    Styles.MoveCurrentTo(styleItem);
                 Styles.CurrentChanged += OnStyleSelectionChanged;
             }
         }
